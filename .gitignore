@@ -438,3 +438,8 @@ typings/
 
 # next.js build output
 .next
+
+
+## solidity coverage
+coverageEnv/
+coverage.json

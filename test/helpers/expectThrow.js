@@ -1,6 +1,6 @@
 // Source: https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/test/helpers/expectThrow.js
 
-export default async promise => {
+module.export = async promise => {
   try {
     await promise;
   } catch (error) {

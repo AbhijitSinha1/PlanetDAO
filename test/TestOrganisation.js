@@ -3,8 +3,7 @@
 const DataStore = artifacts.require('../contracts/DataStore.sol');
 const Organisation = artifacts.require('../contracts/Organisation.sol');
 const sha3 = require('solidity-sha3').default;
-
-import expectThrow from './helpers/expectThrow';
+const expectThrow = require('./helpers/expectThrow');
 
 contract('Organisation', function(accounts) {
     let memberStore, projectStore, taskStore, org;
@@ -13,7 +12,7 @@ contract('Organisation', function(accounts) {
         memberStore = await DataStore.new();
         projectStore = await DataStore.new();
         taskStore = await DataStore.new();
-        org = await Organisation.new({value: web3.toWei(0.1)});
+        org = await Organisation.new();
         // Transfer ownership of stores from default account to organisation. This allows modifying the data store.
         memberStore.transferOwnership(org.address);
         projectStore.transferOwnership(org.address);
@@ -24,22 +23,22 @@ contract('Organisation', function(accounts) {
     });
 
     describe('addMember', function() {
-        it.skip('should add the member', async function() {
+        it('should add the member', async function() {
             await org.addMember(accounts[0], 1);
             let count = await org.memberCount();
             assert.equal(count.valueOf(), 1);
             let member = await org.getMember(1);
             let attr = member.split(';');
-            assert.equal(attr[0], '1');    
+            assert.equal(attr[0], '1');
             assert.equal('0x' + attr[1], accounts[0]);
             assert.equal(attr[2], '0');
             assert.isAtMost(attr[3], Math.floor(Date.now() / 1000));
-            assert.isAbove(attr[3], Math.floor(Date.now() / 1000) - 300);       
+            assert.isAbove(attr[3], Math.floor(Date.now() / 1000) - 300);
         });
     });
 
     describe('removeMember', function() {
-        it.skip('should deactivate the member', async function() {
+        it('should deactivate the member', async function() {
             await org.addMember(accounts[0], 1);
             await org.removeMember(accounts[0]);
             let count = await org.memberCount();
@@ -55,7 +54,7 @@ contract('Organisation', function(accounts) {
     });
 
     describe('getAllMembers', function() {
-        it.skip('should provide details of all members', async function() {
+        it('should provide details of all members', async function() {
             let info = [
                 {index: 1},
                 {index: 2},
